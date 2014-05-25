@@ -1,10 +1,45 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/codegangsta/cli"
+	"github.com/ghigt/gotd/task"
 )
+
+func runAction(c *cli.Context) {
+	println("action run")
+	println("time: ", c.Int("time"))
+}
+
+func listAction(c *cli.Context) {
+	println("action list")
+}
+
+func addAction(c *cli.Context) {
+	var name string
+
+	if len(c.Args()) > 0 {
+		name = c.Args().First()
+	} else {
+		cli.ShowCommandHelp(c, "add")
+	}
+	if len(name) > 0 {
+		tasks = tasks.Add(name)
+		fmt.Println("added task:", name)
+	}
+}
+
+func rmAction(c *cli.Context) {
+	println("action remove")
+}
+
+func editAction(c *cli.Context) {
+	println("action edit")
+}
+
+var tasks task.Tasks
 
 func main() {
 	app := cli.NewApp()
@@ -20,31 +55,23 @@ func main() {
 			Flags: []cli.Flag{
 				cli.IntFlag{"time, t", 25, "default time for the run"},
 			},
-			Action: func(c *cli.Context) {
-				println("action run")
-				println("time: ", c.Int("time"))
-			},
+			Action: runAction,
 		},
 		{
-			Name:  "list",
-			Usage: "list all tasks (id / title / due date)",
-			Action: func(c *cli.Context) {
-				println("action list")
-			},
+			Name:   "list",
+			Usage:  "list all tasks (id / title / due date)",
+			Action: listAction,
 		},
 		{
-			Name:  "add",
-			Usage: "add a task to the list",
-			Action: func(c *cli.Context) {
-				println("action add")
-			},
+			Name:        "add",
+			Usage:       "add a task to the list",
+			Description: "Precise the `name` of the task you want to add.",
+			Action:      addAction,
 		},
 		{
-			Name:  "rm",
-			Usage: "remove a task to the list",
-			Action: func(c *cli.Context) {
-				println("action remove")
-			},
+			Name:   "rm",
+			Usage:  "remove a task to the list",
+			Action: rmAction,
 		},
 		{
 			Name:  "edit",
@@ -52,9 +79,7 @@ func main() {
 			Flags: []cli.Flag{
 				cli.StringFlag{"name, n", "", "new task name"},
 			},
-			Action: func(c *cli.Context) {
-				println("action edit")
-			},
+			Action: editAction,
 		},
 	}
 
