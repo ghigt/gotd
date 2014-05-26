@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/codegangsta/cli"
@@ -40,6 +43,27 @@ func editAction(c *cli.Context) {
 }
 
 var tasks task.Tasks
+
+func readFile() {
+	buf, err := ioutil.ReadFile(".datast")
+	if err == nil {
+		err = json.Unmarshal(buf, &tasks)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}
+
+func saveInFile() {
+	b, err := json.Marshal(tasks)
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = ioutil.WriteFile(".datast", b, 0640)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
 	app := cli.NewApp()
@@ -83,5 +107,7 @@ func main() {
 		},
 	}
 
+	readFile()
+	defer saveInFile()
 	app.Run(os.Args)
 }
