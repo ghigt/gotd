@@ -32,6 +32,19 @@ func (t Tasks) Add(name string) Tasks {
 	return t
 }
 
+func (t Tasks) Remove(id int) Tasks {
+	var i int
+	var task *Task
+
+	for i, task = range t {
+		if task.Id == id {
+			break
+		}
+	}
+	t = append(t[:i], t[i+1:]...)
+	return t
+}
+
 func (t Tasks) String() string {
 	var buf bytes.Buffer
 

@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/codegangsta/cli"
 	"github.com/ghigt/gotd/task"
@@ -17,7 +18,7 @@ func runAction(c *cli.Context) {
 }
 
 func listAction(c *cli.Context) {
-	println("action list")
+	fmt.Printf("%v", tasks)
 }
 
 func addAction(c *cli.Context) {
@@ -30,16 +31,28 @@ func addAction(c *cli.Context) {
 	}
 	if len(name) > 0 {
 		tasks = tasks.Add(name)
-		fmt.Println("added task:", name)
+		fmt.Printf("added task: %q\n", name)
 	}
 }
 
 func rmAction(c *cli.Context) {
-	println("action remove")
+	var id int64
+
+	if len(c.Args()) > 0 {
+		id, _ = strconv.ParseInt(c.Args().First(), 0, 4)
+	} else {
+		cli.ShowCommandHelp(c, "add")
+	}
+	tasks = tasks.Remove(int(id))
+	//fmt.Printf("removed task: %q\n", name)
 }
 
 func editAction(c *cli.Context) {
 	println("action edit")
+}
+
+func resetAction(c *cli.Context) {
+	tasks = task.Tasks{}
 }
 
 var tasks task.Tasks
@@ -104,6 +117,11 @@ func main() {
 				cli.StringFlag{"name, n", "", "new task name"},
 			},
 			Action: editAction,
+		},
+		{
+			Name:   "reset",
+			Usage:  "reset the task list",
+			Action: resetAction,
 		},
 	}
 
