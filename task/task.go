@@ -11,7 +11,7 @@ type Task struct {
 	Id   int
 }
 
-func (t *Task) String() string {
+func (t Task) String() string {
 	return fmt.Sprintf("[%v] %v", t.Id, t.Name)
 }
 
@@ -39,9 +39,8 @@ func (t Tasks) Get(id int) (*Task, error) {
 	return nil, errors.New("index not found")
 }
 
-func (t Tasks) Add(name string) Tasks {
-	t = append(t, &Task{name, t.MaxId() + 1})
-	return t
+func (t *Tasks) Add(name string) {
+	*t = append(*t, &Task{name, (*t).MaxId() + 1})
 }
 
 func (t *Tasks) Remove(id int) error {

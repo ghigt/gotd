@@ -30,7 +30,7 @@ func addAction(c *cli.Context) {
 		cli.ShowCommandHelp(c, "add")
 	}
 	if len(name) > 0 {
-		tasks = tasks.Add(name)
+		tasks.Add(name)
 		fmt.Printf("added task: %q\n", name)
 	}
 }
