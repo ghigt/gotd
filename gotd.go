@@ -89,7 +89,7 @@ func saveInFile() {
 func main() {
 	app := cli.NewApp()
 	app.Name = "gotd"
-	app.Usage = "fight the lazyness!"
+	app.Usage = "fight the laziness!"
 	app.Action = func(c *cli.Context) {
 		cli.ShowAppHelp(c)
 	}
