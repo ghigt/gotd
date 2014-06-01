@@ -39,6 +39,17 @@ func (t Tasks) Get(id int) (*Task, error) {
 	return nil, errors.New("index not found")
 }
 
+func (t Tasks) GetByName(name string) (*Task, error) {
+	var task *Task
+
+	for _, task = range t {
+		if task.Name == name {
+			return task, nil
+		}
+	}
+	return nil, errors.New("task not found")
+}
+
 func (t *Tasks) Add(name string) {
 	*t = append(*t, &Task{name, (*t).MaxId() + 1})
 }

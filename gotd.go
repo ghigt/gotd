@@ -55,7 +55,20 @@ func rmAction(c *cli.Context) {
 }
 
 func editAction(c *cli.Context) {
-	println("action edit")
+	var name, newName string
+
+	if len(c.Args()) >= 2 {
+		name = c.Args()[0]
+		newName = c.Args()[1]
+	} else {
+		cli.ShowCommandHelp(c, "edit")
+		return
+	}
+	task, err := tasks.GetByName(name)
+	if err != nil {
+		log.Fatal(err)
+	}
+	task.Name = newName
 }
 
 func resetAction(c *cli.Context) {
