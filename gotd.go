@@ -43,8 +43,15 @@ func rmAction(c *cli.Context) {
 	} else {
 		cli.ShowCommandHelp(c, "add")
 	}
-	tasks = tasks.Remove(int(id))
-	//fmt.Printf("removed task: %q\n", name)
+	task, err := tasks.Get(int(id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	err = tasks.Remove(int(id))
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("removed task: %q\n", task)
 }
 
 func editAction(c *cli.Context) {
@@ -53,6 +60,7 @@ func editAction(c *cli.Context) {
 
 func resetAction(c *cli.Context) {
 	tasks = task.Tasks{}
+	fmt.Println("tasks reseted")
 }
 
 var tasks task.Tasks

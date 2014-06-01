@@ -2,6 +2,7 @@ package task
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 )
 
@@ -27,22 +28,30 @@ func (t Tasks) MaxId() int {
 	return max
 }
 
+func (t Tasks) Get(id int) (*Task, error) {
+	var task *Task
+
+	for _, task = range t {
+		if task.Id == id {
+			return task, nil
+		}
+	}
+	return nil, errors.New("index not found")
+}
+
 func (t Tasks) Add(name string) Tasks {
 	t = append(t, &Task{name, t.MaxId() + 1})
 	return t
 }
 
-func (t Tasks) Remove(id int) Tasks {
-	var i int
-	var task *Task
-
-	for i, task = range t {
+func (t *Tasks) Remove(id int) error {
+	for i, task := range *t {
 		if task.Id == id {
-			break
+			*t = append((*t)[:i], (*t)[i+1:]...)
+			return nil
 		}
 	}
-	t = append(t[:i], t[i+1:]...)
-	return t
+	return errors.New("index not found")
 }
 
 func (t Tasks) String() string {
