@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/codegangsta/cli"
+	"github.com/ghigt/cli"
 	"github.com/ghigt/gotd/cmd"
 )
 

@@ -3,13 +3,13 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/codegangsta/cli"
+	"github.com/ghigt/cli"
 	"github.com/ghigt/gotd/task"
 )
 
 var CmdReset = cli.Command{
 	Name:   "reset",
-	Usage:  "reset the task list",
+	Usage:  "reset the tasks list",
 	Action: resetAction,
 }
 

@@ -3,7 +3,7 @@ package cmd
 import (
 	"log"
 
-	"github.com/codegangsta/cli"
+	"github.com/ghigt/cli"
 )
 
 var CmdEdit = cli.Command{

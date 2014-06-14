@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/codegangsta/cli"
+	"github.com/ghigt/cli"
 )
 
 var CmdAdd = cli.Command{

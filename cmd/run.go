@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/codegangsta/cli"
+	"github.com/ghigt/cli"
 	"github.com/ghigt/gotd/term"
 )
 
@@ -14,12 +14,12 @@ var CmdRun = cli.Command{
 	//Usage: "randomly chose a task for the next given time",
 	Usage: "choose a task for a given time",
 	Flags: []cli.Flag{
-		cli.IntFlag{"time, t", 25, "default time for the run"},
+		cli.DurationFlag{"time, t", time.Duration(25 * time.Minute), "default time for the run"},
 	},
 	Action: runAction,
 }
 
-func mySelect(t int) {
+func mySelect(t time.Duration) {
 	tick := time.Tick(1 * time.Second)
 
 	var current time.Duration
@@ -36,7 +36,7 @@ func mySelect(t int) {
 			if err := term.SetCap("ce"); err != nil {
 				log.Println(err)
 			}
-			f = time.Duration(t)*time.Second - current
+			f = t - current
 			fmt.Println(f)
 			if f <= 0 {
 				return
@@ -61,7 +61,7 @@ func runAction(c *cli.Context) {
 	if err := term.TGetEnt(); err != nil {
 		log.Println(err)
 	}
-	mySelect(c.Int("time"))
+	mySelect(c.Duration("time"))
 	Tasks.Remove(t.Id)
 	fmt.Println("finished!")
 }

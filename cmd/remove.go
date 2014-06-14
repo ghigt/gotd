@@ -5,7 +5,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/codegangsta/cli"
+	"github.com/ghigt/cli"
 )
 
 var CmdRemove = cli.Command{
