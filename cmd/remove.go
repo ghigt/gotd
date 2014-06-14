@@ -30,5 +30,5 @@ func rmAction(c *cli.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("removed task: %q\n", Task)
+	fmt.Printf("removed task: %v\n", Task)
 }

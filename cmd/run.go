@@ -12,9 +12,9 @@ import (
 var CmdRun = cli.Command{
 	Name: "run",
 	//Usage: "randomly chose a task for the next given time",
-	Usage: "choose a task for a given time",
+	Usage: "choose a task for the run",
 	Flags: []cli.Flag{
-		cli.DurationFlag{"time, t", time.Duration(25 * time.Minute), "default time for the run"},
+		cli.DurationFlag{"duration, d", 0, "specify duration for the run."},
 	},
 	Action: runAction,
 }
@@ -48,6 +48,7 @@ func mySelect(t time.Duration) {
 
 func runAction(c *cli.Context) {
 	var name string
+	d := c.Duration("duration")
 
 	if len(c.Args()) > 0 {
 		name = c.Args().First()
@@ -61,7 +62,11 @@ func runAction(c *cli.Context) {
 	if err := term.TGetEnt(); err != nil {
 		log.Println(err)
 	}
-	mySelect(c.Duration("time"))
+	if d == 0 {
+		mySelect(t.Duration)
+	} else {
+		mySelect(d)
+	}
 	Tasks.Remove(t.Id)
 	fmt.Println("finished!")
 }

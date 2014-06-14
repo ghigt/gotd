@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/ghigt/cli"
 )
@@ -10,7 +11,10 @@ var CmdAdd = cli.Command{
 	Name:        "add",
 	Usage:       "add a task to the list",
 	Description: "Precise the `name` of the task you want to add.",
-	Action:      addAction,
+	Flags: []cli.Flag{
+		cli.DurationFlag{"duration, d", time.Duration(25 * time.Minute), "add duration for the run"},
+	},
+	Action: addAction,
 }
 
 func addAction(c *cli.Context) {
@@ -22,7 +26,7 @@ func addAction(c *cli.Context) {
 		cli.ShowCommandHelp(c, "add")
 	}
 	if len(name) > 0 {
-		Tasks.Add(name)
-		fmt.Printf("added task: %q\n", name)
+		t := Tasks.Add(name, c.Duration("duration"))
+		fmt.Printf("added task: %v\n", *t)
 	}
 }

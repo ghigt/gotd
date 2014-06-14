@@ -4,15 +4,17 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"time"
 )
 
 type Task struct {
-	Name string
-	Id   int
+	Id       int
+	Name     string
+	Duration time.Duration
 }
 
 func (t Task) String() string {
-	return fmt.Sprintf("[%v] %v", t.Id, t.Name)
+	return fmt.Sprintf("[%v] %q (%v)", t.Id, t.Name, t.Duration)
 }
 
 type Tasks []*Task
@@ -50,8 +52,10 @@ func (t Tasks) GetByName(name string) (*Task, error) {
 	return nil, errors.New("task not found")
 }
 
-func (t *Tasks) Add(name string) {
-	*t = append(*t, &Task{name, (*t).MaxId() + 1})
+func (t *Tasks) Add(name string, duration time.Duration) *Task {
+	nt := &Task{(*t).MaxId() + 1, name, duration}
+	*t = append(*t, nt)
+	return nt
 }
 
 func (t *Tasks) Remove(id int) error {
