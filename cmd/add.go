@@ -12,7 +12,7 @@ var CmdAdd = cli.Command{
 	Usage:       "add a task to the list",
 	Description: "Precise the `name` of the task you want to add.",
 	Flags: []cli.Flag{
-		cli.DurationFlag{"duration, d", time.Duration(25 * time.Minute), "add duration for the run"},
+		cli.DurationFlag{"duration, d", time.Duration(25 * time.Minute), "add duration for the run", "GOTD_D"},
 	},
 	Action: addAction,
 }

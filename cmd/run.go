@@ -14,7 +14,7 @@ var CmdRun = cli.Command{
 	//Usage: "randomly chose a task for the next given time",
 	Usage: "choose a task for the run",
 	Flags: []cli.Flag{
-		cli.DurationFlag{"duration, d", 0, "specify duration for the run."},
+		cli.DurationFlag{"duration, d", 0, "specify duration for the run.", "GOTD_D"},
 	},
 	Action: runAction,
 }

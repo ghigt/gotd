@@ -10,7 +10,7 @@ var CmdEdit = cli.Command{
 	Name:  "edit",
 	Usage: "edit a task to the list",
 	Flags: []cli.Flag{
-		cli.StringFlag{"name, n", "", "new task name"},
+		cli.StringFlag{"name, n", "", "new task name", "GOTD_N"},
 	},
 	Action: editAction,
 }
